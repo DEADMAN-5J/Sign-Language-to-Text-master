@@ -1,4 +1,4 @@
-from PIL import Image, ImageTk
+cdfrom PIL import Image, ImageTk
 import tkinter as tk
 import cv2
 import os
