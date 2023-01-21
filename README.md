@@ -17,6 +17,14 @@ To create your own dataset, the collect-data.py file is used. To use this, we ne
 
 ## #2 data preprocessing
 
-To preprocess the images, first we will scale down the image from 300x400 to 30x40, then apply two filters one is black&white then gaussian. The result images will be stored in preprocessed-data folder. To do all these, we need to set the root directory of the project by changing 15th line of image_preprocessing.py, then run the image_preprocessing.py file.
+To preprocess the images, first we will scale down the image from 300x400 to 64x64, then apply two filters one is black&white then gaussian. The result images will be stored in preprocessed-data folder. To do all these, we need to set the root directory of the project by changing 15th line of image_preprocessing.py, then run the image_preprocessing.py file.
 
 testing-filters.py is used to show how the data images will look after perprocessing.
+
+## #3 training model and showing accuracy
+
+After data preprocessing, then comes the model training part. For that we need to run train2.py file. The job of this file is to train the model, store it locally, and plot the training accuracy and loss in charts. after training the model, it generates model-bw.h5 and model-bw.json files, they are then usually stored in the model directory.
+
+## #4 using the trained model to predict hand signs
+
+once we have the training models, we can use the app2.py file to get sign inputs from device camera and predict the sign.

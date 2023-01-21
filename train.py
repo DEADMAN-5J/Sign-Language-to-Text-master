@@ -4,9 +4,10 @@ from keras.layers import Convolution2D
 from keras.layers import MaxPooling2D
 from keras.layers import Flatten
 from keras.layers import Dense , Dropout
+import matplotlib.pyplot as plt
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-sz = 128
+sz = 32
 # Step 1 - Building the CNN
 
 # Initializing the CNN
@@ -32,7 +33,7 @@ classifier.add(Dropout(0.40))
 classifier.add(Dense(units=96, activation='relu'))
 classifier.add(Dropout(0.40))
 classifier.add(Dense(units=64, activation='relu'))
-classifier.add(Dense(units=27, activation='softmax')) # softmax for more than 2
+classifier.add(Dense(units=35, activation='softmax')) # softmax for more than 2
 
 # Compiling the CNN
 classifier.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy']) # categorical_crossentropy for more than 2
@@ -51,23 +52,22 @@ train_datagen = ImageDataGenerator(
 
 test_datagen = ImageDataGenerator(rescale=1./255)
 
-training_set = train_datagen.flow_from_directory('data2/train',
+training_set = train_datagen.flow_from_directory('preprocessed-data/train',
                                                  target_size=(sz, sz),
                                                  batch_size=10,
                                                  color_mode='grayscale',
                                                  class_mode='categorical')
 
-test_set = test_datagen.flow_from_directory('data2/test',
+test_set = test_datagen.flow_from_directory('preprocessed-data/test',
                                             target_size=(sz , sz),
                                             batch_size=10,
                                             color_mode='grayscale',
                                             class_mode='categorical') 
-classifier.fit_generator(
-        training_set,
-        steps_per_epoch=12841, # No of images in training set
-        epochs=5,
-        validation_data=test_set,
-        validation_steps=4268)# No of images in test set
+history = classifier.fit(training_set,
+                         steps_per_epoch=35035, # No of images in training set
+                         epochs=5,
+                         validation_data=test_set,
+                         validation_steps=6965)# No of images in test set
 
 
 # Saving the model
@@ -77,4 +77,25 @@ with open("model-bw.json", "w") as json_file:
 print('Model Saved')
 classifier.save_weights('model-bw.h5')
 print('Weights saved')
+
+
+#plotting accuracy
+print("history")
+print(history.history)
+
+plt.plot(history.history['accuracy'], range(0, len(history.history['accuracy'])), label="Training accuracy")
+plt.plot(history.history['val_accuracy'], range(0, len(history.history['val_accuracy'])), label="Validation accuracy")
+plt.title("Validation accuracies")
+plt.ylabel("accuracy")
+plt.xlabel("Epoch")
+plt.legend(loc="upper left")
+plt.show()
+
+plt.plot(history.history['loss'], range(0, len(history.history['loss'])), label="Training loss")
+plt.plot(history.history['val_loss'], range(0, len(history.history['val_loss'])), label="Validation loss")
+plt.title('Validation loss values')
+plt.ylabel("loss value")
+plt.xlabel("Epoch")
+plt.legend(loc="upper left")
+plt.show()
 

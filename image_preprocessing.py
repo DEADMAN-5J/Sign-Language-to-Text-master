@@ -3,8 +3,8 @@ import numpy as np
 import glob
 import os
 
-#dirs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-dirs = ["1", "2", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+dirs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+# dirs = ["1", "2", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
 for j in range(2):
     mode = "train/"
@@ -31,9 +31,10 @@ for j in range(2):
 
         #applying filters and storing image
         for img in images:
-            resizedImg = cv2.resize(img, (30, 40))
+            resizedImg = cv2.resize(img, (64, 64))
             #gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             blur = cv2.GaussianBlur(resizedImg,(5,5),2)
+            # blur = cv2.Canny(resizedImg, 100, 100)
 
             opPath = "preprocessed-data/" + mode + dirs[i] + "/" + str(imageName) + ".jpg"
             cv2.imwrite(opPath, blur)
