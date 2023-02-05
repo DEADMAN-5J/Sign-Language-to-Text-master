@@ -66,12 +66,15 @@ history = model.fit(train_data_gen, steps_per_epoch=len(train_data_gen), epochs=
 
 
 # Saving the model
-model_json = model.to_json()
-with open("model-bw.json", "w") as json_file:
-    json_file.write(model_json)
-print('Model Saved')
-model.save_weights('model-bw.h5')
-print('Weights saved')
+model.save("sg-model")
+
+# model_json = model.to_json()
+# with open("model-bw.json", "w") as json_file:
+#     json_file.write(model_json)
+#     # model.save('model/my_model')
+# print('Model Saved')
+# model.save_weights('model-bw.h5')
+# print('Weights saved')
 
 print("history")
 print(history.history)
